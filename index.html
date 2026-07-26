@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lairen Artist Archive</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Lairen Artist Archive</h1>
+        <p>Archivo de ilustradores de Lairen TCG</p>
+    </header>
+
+    <main>
+
+        <section id="search-section">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar artista..."
+            >
+        </section>
+
+        <section id="stats">
+            <div>
+                <strong id="artistCount">0</strong>
+                <span>Artistas</span>
+            </div>
+
+            <div>
+                <strong id="cardCount">0</strong>
+                <span>Cartas</span>
+            </div>
+        </section>
+
+        <section id="artistList">
+            <p>No hay artistas cargados.</p>
+        </section>
+
+        <section id="artistDetail">
+            <h2>Seleccioná un artista</h2>
+        </section>
+
+    </main>
+<div id="imageModal" class="modal hidden">
+    <span id="closeModal">&times;</span>
+    <img id="modalImage" src="" alt="">
+</div>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
