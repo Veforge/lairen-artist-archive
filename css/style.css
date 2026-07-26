@@ -1,3 +1,28 @@
+/* ===================================
+   LAIREN ARTIST ARCHIVE
+   Version 2.0
+=================================== */
+
+:root{
+
+    --bg:#111318;
+    --panel:#1a1d24;
+    --panel-light:#232733;
+
+    --text:#f4f4f4;
+    --text-soft:#b4b8c3;
+
+    --accent:#79b8ff;
+
+    --border:#2d3340;
+
+    --radius:18px;
+
+    --shadow:
+        0 10px 30px rgba(0,0,0,.35);
+
+}
+
 *{
     margin:0;
     padding:0;
@@ -5,121 +30,516 @@
 }
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f4f4f4;
-    color:#222;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        Segoe UI,
+        sans-serif;
+
 }
 
-main{
-    max-width:1200px;
+/* ================= HERO ================= */
+
+.hero{
+
+    padding:80px 40px;
+
+    border-bottom:1px solid var(--border);
+
+    background:
+        linear-gradient(
+            180deg,
+            #1b2030,
+            #111318
+        );
+
+}
+
+.hero-content{
+
+    max-width:1300px;
+
     margin:auto;
-    padding:30px;
+
 }
 
-header{
-    text-align:center;
-    padding:40px 20px;
+.hero h1{
+
+    font-size:52px;
+
+    font-weight:800;
+
 }
 
-header h1{
-    margin-bottom:10px;
+.hero p{
+
+    margin-top:18px;
+
+    color:var(--text-soft);
+
+    max-width:700px;
+
+    line-height:1.6;
+
 }
 
-#search-section{
-    margin:30px 0;
+/* ================= ACTIONS ================= */
+
+.hero-actions{
+
+    display:flex;
+
+    gap:16px;
+
+    margin-top:40px;
+
+    flex-wrap:wrap;
+
 }
 
-#searchInput{
-    width:100%;
-    padding:14px;
+input{
+
+    flex:1;
+
+    min-width:260px;
+
+    background:var(--panel);
+
+    color:white;
+
+    border:none;
+
+    outline:none;
+
+    padding:18px 20px;
+
+    border-radius:14px;
+
     font-size:16px;
+
 }
+
+button{
+
+    background:var(--accent);
+
+    color:#111;
+
+    border:none;
+
+    padding:18px 28px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ================= STATS ================= */
 
 #stats{
+
     display:flex;
+
     gap:20px;
-    margin-bottom:30px;
+
+    margin-top:40px;
+
 }
 
-#stats div{
-    background:white;
-    padding:15px 20px;
-    border-radius:8px;
+.stat{
+
+    background:var(--panel);
+
+    padding:18px 24px;
+
+    border-radius:16px;
+
+    box-shadow:var(--shadow);
+
 }
 
-#artistList,
+.stat strong{
+
+    display:block;
+
+    font-size:34px;
+
+}
+
+.stat span{
+
+    color:var(--text-soft);
+
+}
+
+/* ================= MAIN ================= */
+
+main{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:40px;
+
+}
+
+/* ================= ARTISTS ================= */
+
+#artistList{
+
+    column-count:4;
+
+    column-gap:26px;
+
+}
+
+/* por ahora sigue siendo una lista.
+más adelante este grid será el mosaico */
+
+.artist-item{
+
+    background:var(--panel);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:var(--shadow);
+
+}
+
+.artist-item:hover{
+
+    background:var(--panel-light);
+
+    transform:translateY(-3px);
+
+}
+
+/* ================= DETAIL ================= */
+
 #artistDetail{
-    background:white;
-    border-radius:8px;
-    padding:20px;
-    margin-bottom:20px;
-}
-.artist-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
+
+    margin-top:60px;
+
 }
 
-.artist-item:hover {
-    background: #f3f3f3;
+#artistDetail h2{
+
+    font-size:38px;
+
+    margin-bottom:10px;
+
 }
+
+#artistDetail p{
+
+    color:var(--text-soft);
+
+}
+
+/* ================= CARDS ================= */
+
 .card-grid{
+
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:20px;
-    margin-top:20px;
+
+    grid-template-columns:
+        repeat(auto-fill,minmax(220px,1fr));
+
+    gap:22px;
+
+    margin-top:30px;
+
 }
 
 .card{
-    overflow:hidden;
-    border-radius:10px;
-    cursor:pointer;
-    transition:transform .2s;
+
+    transition:.25s;
+
 }
 
 .card:hover{
+
     transform:scale(1.03);
+
 }
 
 .card img{
-    display:block;
+
     width:100%;
-    border-radius:10px;
+
+    display:block;
+
+    border-radius:16px;
+
+    box-shadow:var(--shadow);
+
 }
 
-.card p{
-    padding:10px;
-    font-size:14px;
-}
+/* ================= MODAL ================= */
+
 .modal{
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.9);
+
+    background:rgba(0,0,0,.92);
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
-    z-index:999;
+
+    z-index:9999;
+
 }
 
 .modal img{
-    max-width:90%;
-    max-height:90%;
-    border-radius:10px;
-}
 
-#closeModal{
-    position:absolute;
-    top:20px;
-    right:30px;
-    color:white;
-    font-size:40px;
-    cursor:pointer;
+    max-width:90vw;
+
+    max-height:90vh;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow);
+
 }
 
 .hidden{
+
     display:none;
+
 }
 
-.card img{
+#closeModal{
+
+    position:absolute;
+
+    right:40px;
+
+    top:30px;
+
+    color:white;
+
+    font-size:42px;
+
     cursor:pointer;
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+.hero{
+
+padding:50px 25px;
+
+}
+
+main{
+
+padding:25px;
+
+}
+
+.hero h1{
+
+font-size:38px;
+
+}
+
+#stats{
+
+flex-direction:column;
+
+}
+
+}
+/* ===================================
+   ARTIST CARDS
+=================================== */
+
+.artist-card{
+
+    position:relative;
+
+    display:inline-block;
+
+    width:100%;
+
+    overflow:hidden;
+
+    margin:0 0 26px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    break-inside:avoid;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .35s,
+        box-shadow .35s;
+
+}
+
+.artist-card:hover{
+
+    transform:
+        translateY(-6px)
+        scale(1.02);
+
+}
+
+.artist-cover{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    /* Mostramos una zona más alta de la carta */
+    object-position:center 30%;
+
+    transition:
+        transform .6s,
+        object-position .6s;
+
+}
+
+.artist-card:hover .artist-cover{
+
+    transform:scale(1.08);
+
+}
+
+.artist-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    padding:24px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.95) 0%,
+            rgba(0,0,0,.75) 28%,
+            rgba(0,0,0,.20) 55%,
+            rgba(0,0,0,0) 100%
+        );
+
+}
+
+.artist-overlay h3{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    margin-bottom:6px;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.95),
+        0 0 3px rgba(0,0,0,.9);
+
+}
+
+.artist-overlay span{
+
+    color:#e2e6ef;
+
+    font-size:15px;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.9);
+
+}
+@media(max-width:1400px){
+
+#artistList{
+
+column-count:3;
+
+}
+
+}
+
+@media(max-width:900px){
+
+#artistList{
+
+column-count:2;
+
+}
+
+}
+
+@media(max-width:600px){
+
+#artistList{
+
+column-count:1;
+
+}
+
+}
+.artist-card.small{
+
+    height:210px;
+
+}
+
+.artist-card.medium{
+
+    height:280px;
+
+}
+
+.artist-card.tall{
+
+    height:430px;
+
+}
+
+.artist-card.wide{
+
+    height:340px;
+
 }

@@ -1,0 +1,1 @@
+Lairen Artist Archive es un visor no oficial de los ilustradores de Lairen: La Historia. El sitio genera automáticamente la galería a partir del archivo cards.json, por lo que las nuevas cartas y artistas aparecen sin necesidad de modificar el código.

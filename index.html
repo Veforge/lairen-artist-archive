@@ -9,47 +9,67 @@
 </head>
 <body>
 
-    <header>
+<header class="hero">
+
+    <div class="hero-content">
+
         <h1>Lairen Artist Archive</h1>
-        <p>Archivo de ilustradores de Lairen TCG</p>
-    </header>
 
-    <main>
+        <p>
+            Descubrí a los ilustradores que dan vida al universo de Lairen: la Historia.
+        </p>
 
-        <section id="search-section">
+        <div class="hero-actions">
+
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Buscar artista..."
+                placeholder="Buscar ilustrador..."
             >
-        </section>
+
+            <button id="shuffleButton">
+                🎲 Cambiar portadas
+            </button>
+
+        </div>
 
         <section id="stats">
-            <div>
+
+            <div class="stat">
                 <strong id="artistCount">0</strong>
                 <span>Artistas</span>
             </div>
 
-            <div>
+            <div class="stat">
                 <strong id="cardCount">0</strong>
-                <span>Cartas</span>
+                <span>cartas Ilustradas</span>
             </div>
+
         </section>
 
-        <section id="artistList">
-            <p>No hay artistas cargados.</p>
-        </section>
+    </div>
 
-        <section id="artistDetail">
-            <h2>Seleccioná un artista</h2>
-        </section>
+</header>
 
-    </main>
+<main>
+
+    <section id="artistList"></section>
+
+    <section id="artistDetail">
+        <h2>Seleccioná un artista</h2>
+    </section>
+
+</main>
+
 <div id="imageModal" class="modal hidden">
+
     <span id="closeModal">&times;</span>
+
     <img id="modalImage" src="" alt="">
+
 </div>
-    <script src="js/script.js"></script>
+
+<script src="js/script.js"></script>
 
 </body>
 </html>

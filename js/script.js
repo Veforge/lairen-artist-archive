@@ -1,7 +1,8 @@
 const state = {
     artists: [],
     cards: [],
-    selectedArtist: null
+    selectedArtist: null,
+    search: ""
 };
 
 // =====================
@@ -17,22 +18,53 @@ async function loadCards() {
 // PROCESAR ARTISTAS
 // =====================
 
+function normalizeArtistKey(name) {
+
+    return name
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+}
+
 function extractArtists() {
 
     const artistsMap = new Map();
 
     state.cards.forEach(card => {
 
-        if (!card.artista || card.artista.trim() === "") return;
+       if (!card.artista || card.artista.trim() === "") return;
 
-        if (!artistsMap.has(card.artista)) {
-            artistsMap.set(card.artista, {
-                name: card.artista,
-                cards: []
-            });
-        }
+const key = normalizeArtistKey(card.artista);
 
-        artistsMap.get(card.artista).cards.push(card);
+if (!artistsMap.has(key)) {
+
+    const layouts = [
+    "small",
+    "medium",
+    "medium",
+    "medium",
+    "tall",
+    "wide"
+];
+
+artistsMap.set(key, {
+
+    name: card.artista.trim(),
+
+    cards: [],
+
+    layout: layouts[
+        Math.floor(Math.random() * layouts.length)
+    ]
+
+});
+
+}
+
+artistsMap.get(key).cards.push(card);
 
     });
 
@@ -41,7 +73,11 @@ function extractArtists() {
     state.artists.sort((a, b) => a.name.localeCompare(b.name));
 
     document.getElementById("artistCount").textContent = state.artists.length;
-    document.getElementById("cardCount").textContent = state.cards.length;
+    const illustratedCards = state.cards.filter(card =>
+    card.artista && card.artista.trim() !== ""
+);
+
+document.getElementById("cardCount").textContent = illustratedCards.length;
 
 }
 
@@ -55,22 +91,56 @@ function renderArtistList() {
 
     artistList.innerHTML = "";
 
-    state.artists.forEach(artist => {
+    const filteredArtists = state.artists.filter(artist =>
+    artist.name
+        .toLowerCase()
+        .includes(state.search.toLowerCase())
+);
 
-        const item = document.createElement("div");
+filteredArtists.forEach(artist => {
 
-        item.className = "artist-item";
-        item.textContent = `${artist.name} (${artist.cards.length})`;
+        // Elegimos una carta al azar como portada
+        const cover =
+            artist.cards[
+                Math.floor(Math.random() * artist.cards.length)
+            ];
 
-        item.addEventListener("click", () => {
+        const card = document.createElement("div");
+
+        card.className = `artist-card ${artist.layout}`;
+
+        card.innerHTML = `
+            <img
+                class="artist-cover"
+                src="${cover.urlImagen}"
+                alt="${artist.name}"
+                loading="lazy"
+            >
+
+            <div class="artist-overlay">
+
+                <h3>${artist.name}</h3>
+
+                <span>${artist.cards.length} ilustraciones</span>
+
+            </div>
+        `;
+
+        card.addEventListener("click", () => {
 
             state.selectedArtist = artist;
 
             renderArtistDetail();
 
+            document
+                .getElementById("artistDetail")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
         });
 
-        artistList.appendChild(item);
+        artistList.appendChild(card);
 
     });
 
@@ -172,7 +242,29 @@ async function init() {
 
     extractArtists();
 
+    // Solo al cargar la página
+    state.artists.sort(() => Math.random() - 0.5);
+
     renderArtistList();
+
+    const search = document.getElementById("searchInput");
+
+    search.addEventListener("input", (event) => {
+
+        state.search = event.target.value;
+
+        renderArtistList();
+
+    });
+
+    document
+        .getElementById("shuffleButton")
+        .addEventListener("click", () => {
+
+            // Solo cambia las portadas
+            renderArtistList();
+
+        });
 
     setupModal();
 
