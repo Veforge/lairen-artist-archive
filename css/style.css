@@ -543,3 +543,23 @@ column-count:1;
     height:340px;
 
 }
+
+/* ================= DATA SOURCE STATUS ================= */
+
+.data-status{
+    margin-top:18px;
+    font-size:13px;
+    color:var(--text-soft);
+}
+
+.data-status.online{
+    color:#8fd6a8;
+}
+
+.data-status.offline{
+    color:#e5bd78;
+}
+
+.data-status.error{
+    color:#f08b8b;
+}

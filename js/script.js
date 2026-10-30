@@ -10,8 +10,78 @@ const state = {
 // =====================
 
 async function loadCards() {
-    const response = await fetch("data/cards.json");
-    state.cards = await response.json();
+
+    const apiUrl = "https://lairentcg.com.ar:8443/api/carta/cartas/ordenadas";
+    const status = document.getElementById("dataStatus");
+
+    function isValidDatabase(data) {
+        const requiredFields = ["idCarta", "nombreCarta", "urlImagen", "artista"];
+
+        return Array.isArray(data) &&
+            data.length > 0 &&
+            data.every(card =>
+                card &&
+                typeof card === "object" &&
+                requiredFields.every(field =>
+                    Object.prototype.hasOwnProperty.call(card, field)
+                )
+            );
+    }
+
+    // Primero intentamos obtener la base directamente desde Lairen.
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 12000);
+
+        const response = await fetch(apiUrl, {
+            cache: "no-store",
+            signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+            throw new Error(`API respondió con estado ${response.status}`);
+        }
+
+        const onlineData = await response.json();
+
+        if (!isValidDatabase(onlineData)) {
+            throw new Error("La API devolvió datos incompletos o inválidos");
+        }
+
+        state.cards = onlineData;
+        status.textContent = "Base de datos conectada con Lairen";
+        status.className = "data-status online";
+        return;
+
+    } catch (error) {
+        console.warn("No se pudo cargar la base online. Se usará el respaldo local.", error);
+    }
+
+    // Si la API falla, usamos la copia incluida en el proyecto.
+    try {
+        const response = await fetch("data/cards.json", { cache: "no-cache" });
+
+        if (!response.ok) {
+            throw new Error(`No se pudo cargar el respaldo (${response.status})`);
+        }
+
+        const localData = await response.json();
+
+        if (!isValidDatabase(localData)) {
+            throw new Error("El archivo local contiene datos inválidos");
+        }
+
+        state.cards = localData;
+        status.textContent = "Usando respaldo local";
+        status.className = "data-status offline";
+
+    } catch (error) {
+        status.textContent = "No se pudo cargar la base de datos";
+        status.className = "data-status error";
+        throw error;
+    }
 }
 
 // =====================
@@ -238,7 +308,14 @@ function setupModal() {
 
 async function init() {
 
-    await loadCards();
+    try {
+        await loadCards();
+    } catch (error) {
+        console.error("Error al iniciar Lairen Artist Archive:", error);
+        document.getElementById("artistList").innerHTML =
+            "<p>No se pudo cargar la base de datos. Intentá recargar la página.</p>";
+        return;
+    }
 
     extractArtists();
 
